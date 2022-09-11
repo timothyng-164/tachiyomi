@@ -5,6 +5,7 @@ import android.annotation.TargetApi
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -66,6 +67,7 @@ import eu.kanade.tachiyomi.ui.reader.viewer.BaseViewer
 import eu.kanade.tachiyomi.ui.reader.viewer.ReaderProgressIndicator
 import eu.kanade.tachiyomi.ui.reader.viewer.pager.R2LPagerViewer
 import eu.kanade.tachiyomi.util.preference.toggle
+import eu.kanade.tachiyomi.util.system.ImageUtil
 import eu.kanade.tachiyomi.util.system.applySystemAnimatorScale
 import eu.kanade.tachiyomi.util.system.createReaderThemeContext
 import eu.kanade.tachiyomi.util.system.getThemeColor
@@ -778,6 +780,18 @@ class ReaderActivity : BaseRxActivity<ReaderPresenter>() {
         binding.pageSlider.isEnabled = pages.size > 1
         binding.pageSlider.valueTo = max(pages.lastIndex.toFloat(), 1f)
         binding.pageSlider.value = page.index.toFloat()
+
+        if (presenter.getMangaOrientationType() == OrientationType.AUTO_ROTATE.flagValue) {
+            rotateOnWideImage(page)
+        }
+    }
+
+    private fun rotateOnWideImage(page: ReaderPage) {
+        val stream = page.stream!!
+        when (ImageUtil.isWideImage(stream.invoke())) {
+            true -> setOrientationFlag(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+            false -> setOrientationFlag(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+        }
     }
 
     /**
@@ -895,10 +909,14 @@ class ReaderActivity : BaseRxActivity<ReaderPresenter>() {
      */
     fun setOrientation(orientation: Int) {
         val newOrientation = OrientationType.fromPreference(orientation)
-        if (newOrientation.flag != requestedOrientation) {
-            requestedOrientation = newOrientation.flag
-        }
+        setOrientationFlag(newOrientation.flag)
         updateOrientationShortcut(presenter.getMangaOrientationType(resolveDefault = false))
+    }
+
+    private fun setOrientationFlag(orientationFlag: Int) {
+        if (orientationFlag != requestedOrientation) {
+            requestedOrientation = orientationFlag
+        }
     }
 
     /**

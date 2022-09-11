@@ -171,6 +171,7 @@ object Migrations {
                     3 -> OrientationType.LANDSCAPE.flagValue
                     4 -> OrientationType.LOCKED_PORTRAIT.flagValue
                     5 -> OrientationType.LOCKED_LANDSCAPE.flagValue
+                    6 -> OrientationType.AUTO_ROTATE.flagValue
                     else -> OrientationType.FREE.flagValue
                 }
 
