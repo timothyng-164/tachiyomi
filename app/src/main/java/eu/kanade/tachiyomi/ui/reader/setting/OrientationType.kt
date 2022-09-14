@@ -13,11 +13,10 @@ enum class OrientationType(val prefValue: Int, val flag: Int, @StringRes val str
     LANDSCAPE(3, ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE, R.string.rotation_landscape, R.drawable.ic_stay_current_landscape_24dp, 0x00000018),
     LOCKED_PORTRAIT(4, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT, R.string.rotation_force_portrait, R.drawable.ic_screen_lock_portrait_24dp, 0x00000020),
     LOCKED_LANDSCAPE(5, ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE, R.string.rotation_force_landscape, R.drawable.ic_screen_lock_landscape_24dp, 0x00000028),
-    AUTO_ROTATE_PORTRAIT(6, ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED, R.string.rotation_auto_portrait, R.drawable.ic_screen_rotation_24dp, 0x00000038),
-    AUTO_ROTATE_LANDSCAPE(7, ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED, R.string.rotation_auto_landscape, R.drawable.ic_screen_rotation_24dp, 0x00000040);
+    AUTO_ROTATE(6, ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED, R.string.rotation_auto, R.drawable.ic_screen_rotation_24dp, 0x00000038);
 
     companion object {
-        const val MASK = 0x00000078
+        const val MASK = 0x00000038
 
         fun fromPreference(preference: Int?): OrientationType = values().find { it.flagValue == preference } ?: FREE
 

@@ -781,32 +781,16 @@ class ReaderActivity : BaseRxActivity<ReaderPresenter>() {
         binding.pageSlider.valueTo = max(pages.lastIndex.toFloat(), 1f)
         binding.pageSlider.value = page.index.toFloat()
 
-        detectScreenOrientation(page)
+        if (presenter.getMangaOrientationType() == OrientationType.AUTO_ROTATE.flagValue) {
+            rotateOnWideImage(page)
+        }
     }
 
-    /**
-     * Rotate screen based on image width and user preference
-     */
-    private fun detectScreenOrientation(page: ReaderPage) {
-        if (presenter.getMangaOrientationType() != OrientationType.AUTO_ROTATE_LANDSCAPE.flagValue &&
-            presenter.getMangaOrientationType() != OrientationType.AUTO_ROTATE_PORTRAIT.flagValue
-        ) {
-            return
-        }
-
+    private fun rotateOnWideImage(page: ReaderPage) {
         val stream = page.stream!!
-        val isWideImage = ImageUtil.isWideImage(stream.invoke())
-
-        if (presenter.getMangaOrientationType() == OrientationType.AUTO_ROTATE_LANDSCAPE.flagValue) {
-            when (isWideImage) {
-                true -> setOrientationFlag(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
-                false -> setOrientationFlag(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-            }
-        } else if (presenter.getMangaOrientationType() == OrientationType.AUTO_ROTATE_PORTRAIT.flagValue) {
-            when (isWideImage) {
-                true -> setOrientationFlag(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                false -> setOrientationFlag(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
-            }
+        when (ImageUtil.isWideImage(stream.invoke())) {
+            true -> setOrientationFlag(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+            false -> setOrientationFlag(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         }
     }
 
