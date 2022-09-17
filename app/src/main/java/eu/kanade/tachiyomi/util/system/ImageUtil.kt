@@ -120,16 +120,6 @@ object ImageUtil {
      *
      * @return true if the width is greater than the height
      */
-    fun isWideImage(imageStream: InputStream): Boolean {
-        val options = extractImageOptions(imageStream, false)
-        return options.outWidth > options.outHeight
-    }
-
-    /**
-     * Check whether the image is wide (which we consider a double-page spread).
-     *
-     * @return true if the width is greater than the height
-     */
     fun isWideImage(imageStream: BufferedInputStream): Boolean {
         val options = extractImageOptions(imageStream)
         return options.outWidth > options.outHeight

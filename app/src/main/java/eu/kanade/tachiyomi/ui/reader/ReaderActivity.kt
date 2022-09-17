@@ -789,8 +789,8 @@ class ReaderActivity : BaseRxActivity<ReaderPresenter>() {
     }
 
     private fun rotateOnWideImage(page: ReaderPage) {
-        val stream = page.stream!!
-        when (ImageUtil.isWideImage(stream.invoke())) {
+        val stream = page.stream ?: return
+        when (ImageUtil.isWideImage(stream.invoke().buffered(16))) {
             true -> setOrientationFlag(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
             false -> setOrientationFlag(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         }
