@@ -565,7 +565,7 @@ object ImageUtil {
     /**
      * Used to check an image's dimensions without loading it in the memory.
      */
-    fun extractImageOptions(
+    private fun extractImageOptions(
         imageStream: InputStream,
         resetAfterExtraction: Boolean = true,
     ): BitmapFactory.Options {
