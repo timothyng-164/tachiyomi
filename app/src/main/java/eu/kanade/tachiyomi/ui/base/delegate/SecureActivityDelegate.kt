@@ -23,6 +23,15 @@ interface SecureActivityDelegate {
     fun registerSecureActivity(activity: AppCompatActivity)
 
     companion object {
+        fun onApplicationCreated() {
+            val lockDelay = Injekt.get<PreferencesHelper>().lockAppAfter().get()
+            if (lockDelay == 0) {
+                // Restore always active app lock
+                // Delayed lock will be restored later on activity resume
+                lockState = LockState.ACTIVE
+            }
+        }
+
         fun onApplicationStopped() {
             val preferences = Injekt.get<PreferencesHelper>()
             if (!preferences.useAuthenticator().get()) return
@@ -73,8 +82,8 @@ class SecureActivityDelegateImpl : SecureActivityDelegate, DefaultLifecycleObser
     }
 
     private fun setSecureScreen() {
-        val secureScreenFlow = preferences.secureScreen().asFlow()
-        val incognitoModeFlow = preferences.incognitoMode().asFlow()
+        val secureScreenFlow = preferences.secureScreen().changes()
+        val incognitoModeFlow = preferences.incognitoMode().changes()
         combine(secureScreenFlow, incognitoModeFlow) { secureScreen, incognitoMode ->
             secureScreen == PreferenceValues.SecureScreenMode.ALWAYS ||
                 secureScreen == PreferenceValues.SecureScreenMode.INCOGNITO && incognitoMode

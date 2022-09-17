@@ -24,7 +24,6 @@ import eu.kanade.tachiyomi.util.system.getResourceColor
 import eu.kanade.tachiyomi.util.system.toast
 import eu.kanade.tachiyomi.widget.preference.AdaptiveTitlePreferenceCategory
 import eu.kanade.tachiyomi.widget.preference.IntListPreference
-import eu.kanade.tachiyomi.widget.preference.SwitchPreferenceCategory
 
 @DslMarker
 @Target(AnnotationTarget.TYPE)
@@ -51,10 +50,6 @@ inline fun PreferenceGroup.infoPreference(@StringRes infoRes: Int): Preference {
 
 inline fun PreferenceGroup.switchPreference(block: (@DSL SwitchPreferenceCompat).() -> Unit): SwitchPreferenceCompat {
     return initThenAdd(SwitchPreferenceCompat(context), block)
-}
-
-inline fun PreferenceGroup.switchPreferenceCategory(block: (@DSL SwitchPreferenceCategory).() -> Unit): SwitchPreferenceCategory {
-    return initThenAdd(SwitchPreferenceCategory(context), block)
 }
 
 inline fun PreferenceGroup.checkBoxPreference(block: (@DSL CheckBoxPreference).() -> Unit): CheckBoxPreference {
@@ -111,15 +106,14 @@ inline fun <P : Preference> PreferenceGroup.addThenInit(p: P, block: P.() -> Uni
     }
 }
 
-inline fun <T> Preference.bindTo(preference: com.fredporciuncula.flow.preferences.Preference<T>) {
-    key = preference.key
-    defaultValue = preference.defaultValue
+inline fun <T> Preference.bindTo(preference: eu.kanade.tachiyomi.core.preference.Preference<T>) {
+    key = preference.key()
+    defaultValue = preference.defaultValue()
 }
 
-inline fun <T> ListPreference.bindTo(preference: com.fredporciuncula.flow.preferences.Preference<T>) {
-    key = preference.key
-    // ListPreferences persist values as strings, even when we're using our IntListPreference
-    defaultValue = preference.defaultValue.toString()
+inline fun <T> ListPreference.bindTo(preference: eu.kanade.tachiyomi.core.preference.Preference<T>) {
+    key = preference.key()
+    defaultValue = preference.defaultValue().toString()
 }
 
 inline fun Preference.onClick(crossinline block: () -> Unit) {
