@@ -94,6 +94,18 @@ class PagerConfig(
 
         preferences.dualPageInvertPaged()
             .register({ dualPageInvert = it }, { imagePropertyChangedListener?.invoke() })
+
+        preferences.dualPageRotatePaged()
+            .register(
+                { dualPageRotate = it },
+                { imagePropertyChangedListener?.invoke() },
+            )
+
+        preferences.dualPageRotateReversePaged()
+            .register(
+                { dualPageRotateReverse = it },
+                { imagePropertyChangedListener?.invoke() },
+            )
     }
 
     private fun zoomTypeFromPreference(value: Int) {

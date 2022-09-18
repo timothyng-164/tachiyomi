@@ -38,6 +38,12 @@ abstract class ViewerConfig(preferences: PreferencesHelper, private val scope: C
     var dualPageInvert = false
         protected set
 
+    var dualPageRotate = false
+        protected set
+
+    var dualPageRotateReverse = false
+        protected set
+
     abstract var navigator: ViewerNavigation
         protected set
 

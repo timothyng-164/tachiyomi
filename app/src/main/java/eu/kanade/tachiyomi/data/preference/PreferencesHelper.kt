@@ -88,6 +88,10 @@ class PreferencesHelper(
 
     fun dualPageInvertPaged() = this.preferenceStore.getBoolean("pref_dual_page_invert", false)
 
+    fun dualPageRotatePaged() = this.preferenceStore.getBoolean("pref_dual_page_rotate", false)
+
+    fun dualPageRotateReversePaged() = this.preferenceStore.getBoolean("pref_dual_page_rotate_reverse", false)
+
     fun dualPageSplitWebtoon() = this.preferenceStore.getBoolean("pref_dual_page_split_webtoon", false)
 
     fun dualPageInvertWebtoon() = this.preferenceStore.getBoolean("pref_dual_page_invert_webtoon", false)

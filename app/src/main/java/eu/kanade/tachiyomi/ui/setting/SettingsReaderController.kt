@@ -216,6 +216,15 @@ class SettingsReaderController : SettingsController() {
                 summaryRes = R.string.pref_dual_page_invert_summary
                 visibleIf(preferences.dualPageSplitPaged()) { it }
             }
+            switchPreference {
+                bindTo(preferences.dualPageRotatePaged())
+                titleRes = R.string.pref_dual_page_rotate
+            }
+            switchPreference {
+                bindTo(preferences.dualPageRotateReversePaged())
+                titleRes = R.string.pref_dual_page_rotate_reverse
+                visibleIf(preferences.dualPageRotatePaged()) { it }
+            }
         }
 
         preferenceCategory {
